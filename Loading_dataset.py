@@ -176,7 +176,7 @@ def load_csv_file():
     except IOError:
         print(f"Couldn't read {file_location}.")
 # call the function
-loaded_data = load_csv_file()
+# loaded_data = load_csv_file()
 # print(loaded_data)
 
 
@@ -200,7 +200,7 @@ def load_pd_file():
         print(f"An error occurred while loading the file: {str(e)}")
 
 # call the function
-loaded_data_pd = load_pd_file()
+# loaded_data_pd = load_pd_file()
 
 
 

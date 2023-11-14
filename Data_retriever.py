@@ -4,43 +4,46 @@ from Loading_dataset import load_csv_file
 
 
 def get_oem_id_details(loaded_data):
-    try:
-        oem_id = input("Enter the OEM ID: ").lower()  # Convert input to lowercase
+    while True:
+        try:
+            oem_id = input("Enter the OEM ID: ").lower()  # Convert input to lowercase
 
-        # Create a flag to check if the OEM ID is found
-        oem_id_found = False
+            # Initialize a dictionary to store the details
+            oem_details = {}
 
-        # Initialize a dictionary to store the details
-        oem_details = {}
+            # Loop through each row in the CSV file
+            for row in loaded_data:
+                if row and row[0].lower() == oem_id:  # Compare in lowercase
+                    # If the OEM ID is found, store the details in the dictionary
+                    oem_details["OEM ID"] = oem_id
+                    oem_details["Model"] = row[2]
+                    oem_details["Manufacturer"] = row[6]
+                    oem_details["Weight"] = row[14]
+                    oem_details["Price"] = row[15]
+                    oem_details["Price Unit"] = row[16]
 
-        # Loop through each row in the CSV file
-        for row in loaded_data:
-            if row and row[0].lower() == oem_id:  # Compare in lowercase
-                # If the OEM ID is found, store the details in the dictionary
-                oem_details["OEM ID"] = oem_id
-                oem_details["Model"] = row[2]
-                oem_details["Manufacturer"] = row[6]
-                oem_details["Weight"] = row[14]
-                oem_details["Price"] = row[15]
-                oem_details["Price Unit"] = row[16]
+                    # Print the OEM ID before "OEM ID Details"
+                    print(f"{oem_id} OEM ID Details:")
+                    print("Model:", oem_details["Model"])
+                    print("Manufacturer:", oem_details["Manufacturer"])
+                    print("Weight:", oem_details["Weight"])
+                    print("Price:", oem_details["Price"], oem_details["Price Unit"])
 
-                oem_id_found = True
-                break  # Exit the loop as we found the ID
+                    return  # Exit the function 
 
-        if not oem_id_found:
+            # If the loop completes without finding a match
             print("No match for the OEM ID details found.")
-            return None  # Return None if no match is found
+            retry = input("Do you want to enter a new OEM ID? (yes/no): ")
+            if retry.lower() != 'yes':
+                print("Exiting OEM ID details retrieval...\n")
+                break  # Exit the loop to stop asking for a new OEM ID
 
-        # Print the OEM ID before "OEM ID Details"
-        print(f"{oem_id} OEM ID Details:")
-
-        return oem_details  # Return the details as a dictionary
-    except ValueError:
-        print("Invalid input. Please enter an integer.")
-    except IndexError:
-        print("Index error. Make sure your data has enough columns.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        except ValueError:
+            print("Invalid input. Please enter a valid OEM ID.")
+        except IndexError:
+            print("Index error. Make sure your data has enough columns.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
 
 
@@ -96,7 +99,12 @@ def get_code_name_details(loaded_data):
                         print("No more rows available.")
                         break
 
-                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()  # Convert input to lowercase
+                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
+                    while user_input not in ['next', 'quit']:
+                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
                     if user_input == 'next':
                         start_pos += num_rows
                         end_pos = min(start_pos + num_rows, len(result_rows))
@@ -163,6 +171,11 @@ def get_ram_capacity_details(loaded_data):
                         break
 
                     user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
+                    while user_input not in ['next', 'quit']:
+                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
                     if user_input == 'next':
                         start_pos += num_rows
                         end_pos = min(start_pos + num_rows, len(result_rows))
@@ -174,6 +187,7 @@ def get_ram_capacity_details(loaded_data):
                 break
         except Exception as e:
             print(f"An error occurred: {e}")
+
 
 
 
@@ -271,13 +285,19 @@ def return_ordered_device_details(loaded_data):
                         print("No more rows available.")
                         break
 
-                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").strip().lower()
+                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
+                    while user_input not in ['next', 'quit']:
+                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+
                     if user_input == 'next':
                         start_pos += num_rows
+                        end_pos = min(start_pos + num_rows, len(result_rows))
                     elif user_input == 'quit':
                         print("The display of results is stopping...")
                         print("Stopped")
-                        return 
+                        break
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")

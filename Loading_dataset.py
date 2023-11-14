@@ -4,207 +4,254 @@ def run_phoneDB_program():
     username = input("What is your name? ")
     username = username.upper()
     print(f"\nYes, {username}, let's get to work.")
+    import Loading_dataset  # Assuming the Loading_dataset module contains the load_csv_file and load_pd_file functions
     import Data_retriever
     import Data_analysis
     import Data_visualization
-    
 
+    loaded_data = None
+    loaded_data_pd = None
 
     while True:
-        print("\nPlease select a section:")
-        print("A. Work with a CSV file")
-        print("B. Work with a Pandas file")
-        print("C. Visualize using the pandas data")
-
         try:
+            print("\nPlease select a section:")
+            print("A. Work with a CSV file")
+            print("B. Work with a Pandas file")
+            print("C. Visualize using the pandas data")
+
             choice1 = input("Enter the section (A-C): ").upper()
-            
+
+            while choice1 not in ['A', 'B', 'C']:
+                print("Invalid choice. Please enter a valid option (A-C).")
+                choice1 = input("Enter the section (A-C): ").upper()
+
             if choice1 == "A":
-                print("\nPlease select an operation:")
-                print("1. Load the data from a CSV file")
-                print("2. Get some details on an individual device by oem_id")
-                print("3. Get details of all devices for a specified code name")
-                print("4. Get details of all devices for a specified RAM capacity")
-                print("5. Get details of all devices for a specified brand, category and price range")
-                choice_A = int(input("Enter your choice (1-5): "))
+                while True:
+                    print("\nPlease select an operation:")
+                    print("1. Load the data from a CSV file")
+                    print("2. Get some details on an individual device by oem_id")
+                    print("3. Get details of all devices for a specified code name")
+                    print("4. Get details of all devices for a specified RAM capacity")
+                    print("5. Get details of all devices for a specified brand, category, and price range")
+                    choice_A = int(input("Enter your choice (1-5): "))
 
-                if choice_A == 1:
-                    # Perform option 1
-                    print("Option 1 selected.")
-                    loaded_data = load_csv_file()
+                    if choice_A == 1:
+                        # Perform option 1
+                        print("Option 1 selected.")
+                        from Loading_dataset import load_csv_file
+                        loaded_data = Loading_dataset.load_csv_file()
 
-                elif choice_A == 2:
-                    # Perform option 2
-                    print("Option 2 selected.")
-                    from Data_retriever import get_oem_id_details
-                    # host_details = get_host_details()
-                    device_details = Data_retriever.get_oem_id_details(loaded_data)
-                    print(device_details)
+                    elif choice_A == 2:
+                        # Perform option 2
+                        print("Option 2 selected.")
+                        from Data_retriever import get_oem_id_details
+                        device_details = Data_retriever.get_oem_id_details(loaded_data)
+                        print(device_details)
 
-                elif choice_A == 3:
-                    # Perform option 3
-                    print("Option 3 selected.")
-                    from Data_retriever import get_code_name_details
-                    code_name = Data_retriever.get_code_name_details(loaded_data)
-                    print(code_name)
+                    elif choice_A == 3:
+                        # Perform option 3
+                        print("Option 3 selected.")
+                        from Data_retriever import get_code_name_details
+                        code_name = Data_retriever.get_code_name_details(loaded_data)
+                        print(code_name)
 
-                elif choice_A == 4:
-                    # Perform option 4
-                    print("Option 4 selected.")
-                    from Data_retriever import get_ram_capacity_details
-                    ram = Data_retriever.get_ram_capacity_details(loaded_data)
-                    print(ram)
-                elif choice_A == 5:
-                    # Perform option 5
-                    print("Option 5 selected.")
-                    from Data_retriever import return_ordered_device_details
-                    ordered_detiails = Data_retriever.return_ordered_device_details(loaded_data)
-                    print(ordered_detiails)
+                    elif choice_A == 4:
+                        # Perform option 4
+                        print("Option 4 selected.")
+                        from Data_retriever import get_ram_capacity_details
+                        ram = Data_retriever.get_ram_capacity_details(loaded_data)
+                        print(ram)
+                    elif choice_A == 5:
+                        # Perform option 5
+                        print("Option 5 selected.")
+                        from Data_retriever import return_ordered_device_details
+                        ordered_details = Data_retriever.return_ordered_device_details(loaded_data)
+                        print(ordered_details)
 
-                else:
-                    print("Invalid choice. Please enter a valid option.")
+                    else:
+                        print("Invalid choice. Please enter a valid option.")
+
+                    # Ask the user if they want to continue in section A
+                    continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ")
+                    if continue_choice_A.lower() != 'yes':
+                        print("Returning to the main menu...")
+                        break
 
             elif choice1 == "B":
-                print("\nPlease select an operation:")
-                print("5. Load your data from a CSV file into a pandas DataFrame")
-                print("6. Get the top 5 regions a brand is sold")
-                print("7. Get the average price of devices for a brand in a particular or all currencies")
-                print("8. Get the average mass of device for each manufacturer")
-                print("9. Get the recommendation from the top 5 cheap device with a price performance ratio")
-                choice_B = int(input("Enter your choice (5-9): "))
-
-                if choice_B == 5:
-                    # Perform option 5
-                    print("Option 5 selected.")
-                    loaded_data_pd = load_pd_file()
-
-                elif choice_B == 6:
-                    # Perform option 6
-                    print("Option 6 selected.")
-                    from Data_analysis import get_brand_regions
-                    brand_region = Data_analysis.get_brand_regions(loaded_data_pd)
-                    print(brand_region)
-
-                elif choice_B == 7:
-                    # Perform option 7
-                    print("Option 7 selected.")
-                    from Data_analysis import calculate_average_price_for_brand
-                    average_price = Data_analysis.calculate_average_price_for_brand(loaded_data_pd)
-                    print(average_price)
-
-                elif choice_B == 8:
-                    # Perform option 8
-                    print("Option 8 selected.")
-                    from Data_analysis import average_mass_brand
-                    average_mass = Data_analysis.average_mass_brand(loaded_data_pd)
-                    print(average_mass)
-                    
-                elif choice_B == 9:
-                    # Perform option 9
-                    print("Option 9 selected.")
-                    from Data_analysis import get_cheapest_prices_and_calculate_ratio
-                    ratio = Data_analysis.get_cheapest_prices_and_calculate_ratio(loaded_data_pd)
-                    print(ratio)
-
+                if loaded_data is None:
+                    print("Please load the dataset first in Section A.")
                 else:
-                    print("Invalid choice. Please enter a valid option.")
+                    while True:
+                        print("\nPlease select an operation:")
+                        print("5. Load your data from a CSV file into a pandas DataFrame")
+                        print("6. Get the top 5 regions a brand is sold")
+                        print("7. Get the average price of devices for a brand in a particular or all currencies")
+                        print("8. Get the average mass of the device for each manufacturer")
+                        print("9. Get the recommendation from the top 5 cheap devices with a price performance ratio")
+                        choice_B = int(input("Enter your choice (5-9): "))
+
+                        if choice_B == 5:
+                            # Perform option 5
+                            print("Option 5 selected.")
+                            from Loading_dataset import load_pd_file
+                            loaded_data_pd = Loading_dataset.load_pd_file()
+
+                        elif choice_B == 6:
+                            # Perform option 6
+                            print("Option 6 selected.")
+                            from Data_analysis import get_brand_regions
+                            brand_region = Data_analysis.get_brand_regions(loaded_data_pd)
+                            print(brand_region)
+
+                        elif choice_B == 7:
+                            # Perform option 7
+                            print("Option 7 selected.")
+                            from Data_analysis import calculate_average_price_for_brand
+                            average_price = Data_analysis.calculate_average_price_for_brand(loaded_data_pd)
+                            print(average_price)
+
+                        elif choice_B == 8:
+                            # Perform option 8
+                            print("Option 8 selected.")
+                            from Data_analysis import average_mass_brand
+                            average_mass = Data_analysis.average_mass_brand(loaded_data_pd)
+                            print(average_mass)
+
+                        elif choice_B == 9:
+                            # Perform option 9
+                            print("Option 9 selected.")
+                            from Data_analysis import get_cheapest_prices_and_calculate_ratio
+                            ratio = Data_analysis.get_cheapest_prices_and_calculate_ratio(loaded_data_pd)
+                            print(ratio)
+
+                        else:
+                            print("Invalid choice. Please enter a valid option.")
+
+                        # Ask the user if they want to continue in section B
+                        continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ")
+                        if continue_choice_B.lower() != 'yes':
+                            print("Returning to the main menu...")
+                            break
 
             elif choice1 == "C":
-                print("\nPlease select an operation:")
-                print("9. Get the proportion of the RAM types for devices in the current market using a pie chart")
-                print("10. Get the number of number of devices for each USB connector type using a bar chart")
-                print("11. Get the monthly average price trends (in GBP) for devices released in each year from 2020 to 2023.")
-                print("12. Get bar chart for the average battery capacity and relationship between display size and battery capacity with a scatter plot")
-                choice_C = int(input("Enter your choice (9-12): "))
+                while True:
+                    try:
+                        if loaded_data_pd is None:
+                            print("Please load the dataset first in Section B.")
+                            break
 
-                if choice_C == 9:
-                    # Perform option 9
-                    print("Option 9 selected.")
-                    from Data_visualization import ram_type_proportion
-                    pie_chart = Data_visualization.ram_type_proportion(loaded_data_pd)
+                        print("\nPlease select an operation:")
+                        print("9. Get the proportion of the RAM types for devices in the current market using a pie chart")
+                        print("10. Get the number of devices for each USB connector type using a bar chart")
+                        print("11. Get the monthly average price trends (in GBP) for devices released in each year from 2020 to 2023.")
+                        print("12. Get a bar chart for the average battery capacity and the relationship between display size and battery capacity with a scatter plot")
 
-                elif choice_C == 10:
-                    # Perform option 10
-                    print("Option 10 selected.")
-                    from Data_visualization import usb_connector_comparison
-                    bar_chart = Data_visualization.usb_connector_comparison(loaded_data_pd)
+                        choice_C = int(input("Enter your choice (9-12): "))
 
-                elif choice_C == 11:
-                    # Perform option 11
-                    print("Option 11 selected.")
-                    from Data_visualization import subplot_GBP
-                    plot_subplot = Data_visualization.subplot_GBP(loaded_data_pd)
+                        while choice_C not in [9, 10, 11, 12]:
+                            print("Invalid choice. Please enter a valid option (9-12).")
+                            choice_C = int(input("Enter your choice (9-12): "))
 
-                elif choice_C == 12:
-                    # Perform option 12
-                    print("Option 12 selected.")
-                    from Data_visualization import vis_brand
-                    plot_vis = Data_visualization.vis_brand(loaded_data_pd)
+                        if choice_C == 9:
+                            # Perform option 9
+                            print("Option 9 selected.")
+                            from Data_visualization import ram_type_proportion
+                            pie_chart = Data_visualization.ram_type_proportion(loaded_data_pd)
 
-                else:
-                    print("Invalid choice. Please enter a valid option.")
+                        elif choice_C == 10:
+                            # Perform option 10
+                            print("Option 10 selected.")
+                            from Data_visualization import usb_connector_comparison
+                            bar_chart = Data_visualization.usb_connector_comparison(loaded_data_pd)
 
+                        elif choice_C == 11:
+                            # Perform option 11
+                            print("Option 11 selected.")
+                            from Data_visualization import subplot_GBP
+                            plot_subplot = Data_visualization.subplot_GBP(loaded_data_pd)
+
+                        elif choice_C == 12:
+                            # Perform option 12
+                            print("Option 12 selected.")
+                            from Data_visualization import vis_brand
+                            plot_vis = Data_visualization.vis_brand(loaded_data_pd)
+
+                        else:
+                            print("Invalid choice. Please enter a valid option.")
+
+                        # Ask the user if they want to continue in section C
+                        continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ")
+                        if continue_choice_C.lower() != 'yes':
+                            print("Returning to the main menu...")
+                            break
+
+                    except ValueError:
+                        print("Invalid input. Please enter a valid integer.")
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
 
-        # Ask the user if they want to continue or exit
-        continue_choice = input("Do you want to perform another operation? (yes/no): ")
-        
-        if continue_choice.lower() != 'yes':
+        # Ask the user if they want to return to the main menu or exit
+        return_choice = input("Do you want to return to the main menu or exit the program? (menu/exit): ")
+        if return_choice.lower() == 'exit':
             print("Exiting...\nExited")
             break
+        elif return_choice.lower() != 'menu':
+            print("Invalid choice. Returning to the main menu...")
+
+
+
+
+# reading in the csv data from csv file using csv  
 
 
 import csv
-#"device_features.csv"
-file_location = input("Enter the file location: ")
+
+file_location = None  # Initialize the variable
+
 def load_csv_file():
-    try:
-         #input("Enter file location: ")
-        phone_data = []
-        with open(file_location, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            next(reader)
-            for line in reader:
-                phone_data.append(line)
+    global file_location  # Use the global variable
+    while True:
+        file_location = input("Enter the file location: ")
+
+        try:
+            phone_data = []
+            with open(file_location, 'r', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                next(reader)
+                for line in reader:
+                    phone_data.append(line)
             print(f"\nFetching data...\nSuccessfully loaded the {file_location} dataset.")
             return phone_data
-    except csv.Error:
-        print(f"Invalid CSV file: {file_location}")
-    except FileNotFoundError:
-        print(f"File not found: {file_location}")
-    except IOError:
-        print(f"Couldn't read {file_location}.")
-# call the function
-# loaded_data = load_csv_file()
-# print(loaded_data)
 
+        except csv.Error:
+            print(f"Invalid CSV file: {file_location}")
+        except FileNotFoundError:
+            print(f"File not found: {file_location}")
+        except IOError:
+            print(f"Couldn't read {file_location}.")
 
-# In[2]:
+        retry = input("Do you want to enter a new file location? (yes/no): ")
+        if retry.lower() != 'yes':
+            print("Exiting file loading...\n")
+            return None  
 
-
+# reading in the csv data as a pandas file using pandas        
+        
 import pandas as pd
 
 def load_pd_file():
-    try:
-        phone_data = pd.read_csv(file_location, encoding='utf-8')
-        print(f"\nFetching data...\nSuccessfully loaded the {file_location} pandas dataset.")
-        return phone_data
-    except pd.errors.EmptyDataError:
-        print(f"Empty CSV file: {file_location}")
-    except FileNotFoundError:
-        print(f"File not found: {file_location}")
-    except pd.errors.ParserError:
-        print(f"Couldn't read {file_location}. It may not be a valid CSV file.")
-    except Exception as e:
-        print(f"An error occurred while loading the file: {str(e)}")
-
-# call the function
-# loaded_data_pd = load_pd_file()
-
-
-
-
-
-
+    global file_location  # Use the global variable
+    if file_location is not None:
+        try:
+            phone_data = pd.read_csv(file_location, encoding='utf-8')
+            print(f"\nFetching data...\nSuccessfully loaded the {file_location} pandas dataset.")
+            return phone_data
+        except pd.errors.EmptyDataError:
+            print(f"Empty CSV file: {file_location}")
+        except FileNotFoundError:
+            print(f"File not found: {file_location}")
+        except pd.errors.ParserError:
+            print(f"Couldn't read {file_location}. It may not be a valid CSV file.")
+        except Exception as e:
+            print(f"An error occurred while loading the file: {str(e)}")
 

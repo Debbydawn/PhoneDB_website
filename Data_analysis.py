@@ -33,6 +33,7 @@ def get_brand_regions(loaded_data_pd):
 
 
 
+
 def get_valid_input(prompt, valid_options):
     display_options = [option.capitalize() for option in valid_options]
 

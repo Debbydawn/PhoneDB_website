@@ -1,7 +1,7 @@
 # loading dataset
 from Loading_dataset import load_csv_file
 
-
+# A1
 
 def get_oem_id_details(loaded_data):
     while True:
@@ -13,40 +13,45 @@ def get_oem_id_details(loaded_data):
 
             # Loop through each row in the CSV file
             for row in loaded_data:
-                if row and row[0].lower() == oem_id:  # Compare in lowercase
+                # Check if the row has enough elements and compare in lowercase
+                if row and len(row) > 0 and row[0].lower() == oem_id:
                     # If the OEM ID is found, store the details in the dictionary
                     oem_details["OEM ID"] = oem_id
-                    oem_details["Model"] = row[2]
-                    oem_details["Manufacturer"] = row[6]
-                    oem_details["Weight"] = row[14]
-                    oem_details["Price"] = row[15]
-                    oem_details["Price Unit"] = row[16]
+                    oem_details["Model"] = row[2] if len(row) > 2 else ""
+                    oem_details["Manufacturer"] = row[6] if len(row) > 6 else ""
+                    oem_details["Weight"] = row[14] if len(row) > 14 else ""
+                    oem_details["Price"] = row[15] if len(row) > 15 else ""
+                    oem_details["Price Unit"] = row[16] if len(row) > 16 else ""
 
                     # Print the OEM ID before "OEM ID Details"
-                    print(f"{oem_id} OEM ID Details:")
-                    print("Model:", oem_details["Model"])
-                    print("Manufacturer:", oem_details["Manufacturer"])
-                    print("Weight:", oem_details["Weight"])
-                    print("Price:", oem_details["Price"], oem_details["Price Unit"])
+                    print("\033[44m\033[1m" + f"{oem_id} OEM ID Details:" + "\033[0m")
+                    print("\033[1m" + "-" * 60 + "\033[0m")
+                    print("\033[1mModel:\033[0m", oem_details["Model"])
+                    print("\033[1mManufacturer:\033[0m", oem_details["Manufacturer"])
+                    print("\033[1mWeight:\033[0m", oem_details["Weight"])
+                    print("\033[1mPrice:\033[0m", oem_details["Price"], oem_details["Price Unit"])
+                    print("\033[1m" + "-" * 60 + "\033[0m")
 
-                    return  # Exit the function 
+                    return  # Exit the function
 
             # If the loop completes without finding a match
-            print("No match for the OEM ID details found.")
+            print("\033[1m" + "No match for the OEM ID details found." + "\033[0m")
             retry = input("Do you want to enter a new OEM ID? (yes/no): ")
             if retry.lower() != 'yes':
-                print("Exiting OEM ID details retrieval...\n")
+                print("\033[1m" + "Exiting OEM ID details retrieval..." + "\033[0m\n")
                 break  # Exit the loop to stop asking for a new OEM ID
 
         except ValueError:
-            print("Invalid input. Please enter a valid OEM ID.")
+            print("\033[41m\033[1m" + "Invalid input. Please enter a valid OEM ID." + "\033[0m")
         except IndexError:
-            print("Index error. Make sure your data has enough columns.")
+            print("\033[41m\033[1m" + "Index error. Make sure your data has enough columns." + "\033[0m")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print("\033[41m\033[1m" + f"An error occurred: {e}" + "\033[0m")
 
 
 
+
+# A2     
 
 def get_code_name_details(loaded_data):
     while True:
@@ -78,7 +83,7 @@ def get_code_name_details(loaded_data):
                     code_name_found = True
 
             if not code_name_found:
-                print("No match for the code name details found.")
+                print("\033[1mNo match for the code name details found.\033[0m")
             else:
                 num_rows = 20
                 start_pos = 0
@@ -88,36 +93,39 @@ def get_code_name_details(loaded_data):
                     for i in range(start_pos, end_pos):
                         row = result_rows[i]
                         print()
-                        print("Band:", row["Band"])
-                        print("Model name:", row["Model name"])
-                        print("RAM:", row["RAM"])
-                        print("Market region:", row["Market regions"])
-                        print("Date of addition:", row["Date of addition"])
-                        print("-----------------------------------------------------------------------------------------------------------------------------------")
+                        print("\033[1m" + "-" * 100 + "\033[0m")
+                        print("\033[1mBand:\033[0m", row["Band"])
+                        print("\033[1mModel name:\033[0m", row["Model name"])
+                        print("\033[1mRAM:\033[0m", row["RAM"])
+                        print("\033[1mMarket region:\033[0m", row["Market regions"])
+                        print("\033[1mDate of addition:\033[0m", row["Date of addition"])
 
                     if end_pos >= len(result_rows):
-                        print("No more rows available.")
+                        print("\033[1m" + "-" * 100 + "\033[0m")
+                        print("\033[1mNo more rows available.\033[0m")
                         break
 
-                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()
 
                     while user_input not in ['next', 'quit']:
-                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        print("\033[1mInvalid input.\033[0m Please enter 'next' to retrieve more rows or 'quit' to exit.")
                         user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
 
                     if user_input == 'next':
                         start_pos += num_rows
                         end_pos = min(start_pos + num_rows, len(result_rows))
                     elif user_input == 'quit':
-                        print("The display of results is stopping...")
-                        print("Stopped")
+                        print("\033[1mThe display of results is stopping...\033[0m")
+                        print("\033[1mStopped\033[0m")
                         break
                 # Break out of the while loop after displaying the results
                 break
         except ValueError:
-            print("Invalid input. Please enter a valid code name (string).")
+            print("\033[41m\033[1mInvalid input.\033[0m Please enter a valid code name (string).")
 
 
+
+# A3
 
 def get_ram_capacity_details(loaded_data):
     while True:
@@ -149,7 +157,7 @@ def get_ram_capacity_details(loaded_data):
                     ram_size_found = True
 
             if not ram_size_found:
-                print("No match for the RAM size details found.")
+                print("\033[1mNo match for the RAM size details found.\033[0m")
             else:
                 num_rows = 20
                 start_pos = 0
@@ -159,29 +167,30 @@ def get_ram_capacity_details(loaded_data):
                     for i in range(start_pos, end_pos):
                         row = result_rows[i]
                         print()
-                        print("OEM Id:", row["OEM Id"])
-                        print("Release date:", row["Release date"])
-                        print("Announcement date:", row["Announcement date"])
-                        print("Dimensions:", row["Dimensions"])
-                        print("Device category:", row["Device category"])
-                        print("---------------------------------------------------------------------------------------------------------")
+                        print("\033[1m" + "-" * 100 + "\033[0m")
+                        print("\033[1mOEM Id:\033[0m", row["OEM Id"])
+                        print("\033[1mRelease date:\033[0m", row["Release date"])
+                        print("\033[1mAnnouncement date:\033[0m", row["Announcement date"])
+                        print("\033[1mDimensions:\033[0m", row["Dimensions"])
+                        print("\033[1mDevice category:\033[0m", row["Device category"])
 
                     if end_pos >= len(result_rows):
-                        print("No more rows available.")
+                        print("\033[1m" + "-" * 100 + "\033[0m")
+                        print("\033[1mNo more rows available.\033[0m")
                         break
 
-                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()
 
                     while user_input not in ['next', 'quit']:
-                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
-                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+                        print("\033[1mInvalid input.\033[0m Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()
 
                     if user_input == 'next':
                         start_pos += num_rows
                         end_pos = min(start_pos + num_rows, len(result_rows))
                     elif user_input == 'quit':
-                        print("The display of results is stopping...")
-                        print("Stopped")
+                        print("\033[1mThe display of results is stopping...\033[0m")
+                        print("\033[1mStopped\033[0m")
                         break
                 # Break out of the while loop after displaying the results
                 break
@@ -191,6 +200,8 @@ def get_ram_capacity_details(loaded_data):
 
 
 
+
+# A4
 
 def return_ordered_device_details(loaded_data):
     try:
@@ -232,8 +243,8 @@ def return_ordered_device_details(loaded_data):
 
             # Loop through your data to find matching devices
             for row in loaded_data:
-                if row[1].strip().lower() == brand_name and row[9].strip().lower() == device_type:
-                    price = float(row[15])
+                if len(row) > 43 and row[1].strip().lower() == brand_name and row[9].strip().lower() == device_type:
+                    price = float(row[15]) if row[15] else 0.0
                     if min_price <= price <= max_price:
                         value1 = row[43]
                         value2 = row[24]
@@ -258,7 +269,7 @@ def return_ordered_device_details(loaded_data):
 
             # Check if any matching devices were found
             if not result_rows:
-                print("No match for the given criteria.")
+                print("\033[1mNo match for the given criteria.\033[0m")
                 try_another_option = input("Do you want to try another option? (yes/no): ").strip().lower()
                 if try_another_option == 'no':
                     break
@@ -272,35 +283,36 @@ def return_ordered_device_details(loaded_data):
                         if i < len(result_rows):
                             row = result_rows[i]
                             print()
-                            print("Released Date:", row["Released Date"])
-                            print("Price:", row["Price"])
-                            print("Battery Capacity: ", row["Battery Capacity"])
-                            print("Storage Space: ", row["Storage Space"])
-                            print("Additional Software Details: ", row["Additional Software Details"])
-                            print("Pixel Density: ", row["Pixel Density"])
-                            print("Sim-Card-Type: ", row["Sim-Card-Type"])
-                            print("---------------------------------------------------------------------------------------------------------------------------")
+                            print("\033[1mReleased Date:\033[0m", row["Released Date"])
+                            print("\033[1mPrice:\033[0m", row["Price"])
+                            print("\033[1mBattery Capacity:\033[0m", row["Battery Capacity"])
+                            print("\033[1mStorage Space:\033[0m", row["Storage Space"])
+                            print("\033[1mAdditional Software Details:\033[0m", row["Additional Software Details"])
+                            print("\033[1mPixel Density:\033[0m", row["Pixel Density"])
+                            print("\033[1mSim-Card-Type:\033[0m", row["Sim-Card-Type"])
+                            print("\033[1m" + "-" * 135 + "\033[0m")
 
                     if end_pos >= len(result_rows):
-                        print("No more rows available.")
+                        print("\033[1m" + "-" * 100 + "\033[0m")
+                        print("\033[1mNo more rows available.\033[0m")
                         break
 
-                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+                    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()
 
                     while user_input not in ['next', 'quit']:
-                        print("Invalid input. Please enter 'next' to retrieve more rows or 'quit' to exit.")
-                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+                        print("\033[1mInvalid input.\033[0m Please enter 'next' to retrieve more rows or 'quit' to exit.")
+                        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").lower()
 
                     if user_input == 'next':
                         start_pos += num_rows
                         end_pos = min(start_pos + num_rows, len(result_rows))
                     elif user_input == 'quit':
-                        print("The display of results is stopping...")
-                        print("Stopped")
+                        print("\033[1mThe display of results is stopping...\033[0m")
+                        print("\033[1mStopped\033[0m")
                         break
 
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print("\033[41m\033[1mAn error occurred:\033[0m", str(e))
 
 
 

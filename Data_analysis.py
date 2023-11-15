@@ -1,15 +1,9 @@
 # loading dataset
 from Loading_dataset import load_pd_file
 
-
-
+#B1
 
 def get_brand_regions(loaded_data_pd):
-    # Group data to find the top regions for each brand
-    brand_counts = loaded_data_pd.groupby(['market_regions', 'brand']).size().reset_index(name='counts')
-    top_regions_by_brand = brand_counts.groupby('brand').apply(lambda x: x.nlargest(5, 'counts'))
-    top_regions_by_brand = top_regions_by_brand.drop(columns='brand').reset_index()
-
     while True:
         try:
             brand_names = ", ".join(loaded_data_pd['brand'].unique())
@@ -20,6 +14,15 @@ def get_brand_regions(loaded_data_pd):
             if user_brand == 'quit':
                 break  # Exit the loop if the user wants to quit
 
+            # Validate user input against available brand names
+            if user_brand not in loaded_data_pd['brand'].str.lower().unique():
+                raise ValueError("Invalid brand name. Please enter a valid brand name.")
+
+            # Group data to find the top regions for each brand
+            brand_counts = loaded_data_pd.groupby(['market_regions', 'brand']).size().reset_index(name='counts')
+            top_regions_by_brand = brand_counts.groupby('brand').apply(lambda x: x.nlargest(5, 'counts'))
+            top_regions_by_brand = top_regions_by_brand.drop(columns='brand').reset_index()
+
             user_brand_data = top_regions_by_brand[top_regions_by_brand['brand'].str.lower() == user_brand]
 
             if not user_brand_data.empty:
@@ -28,22 +31,16 @@ def get_brand_regions(loaded_data_pd):
                     print(f"Region: {row['market_regions']} - Count: {row['counts']}")
             else:
                 print(f"No data available for brand: {user_brand}")
+
+        except ValueError as ve:
+            print(f"\033[31mValueError: {ve}. Please try again.\033[0m")
         except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print(f"\033[31mAn error occurred: {e}. Please try again.\033[0m")
 
 
 
 
-def get_valid_input(prompt, valid_options):
-    display_options = [option.capitalize() for option in valid_options]
-
-    while True:
-        user_input = input(prompt).strip().lower()
-        if user_input in valid_options:
-            return user_input
-        print(f"Invalid input. Please choose from the following options: {', '.join(display_options)}")
-
-
+# B2
 
 def calculate_average_price_for_brand(loaded_data_pd):
     while True:
@@ -51,12 +48,24 @@ def calculate_average_price_for_brand(loaded_data_pd):
             # Get user input for the brand
             brand_name = ", ".join(loaded_data_pd['brand'].unique())
             print(f"The device brand names in this dataset are:\n {brand_name}")
-            brand_input = get_valid_input("Enter the brand (or 'all' for all brands): ", loaded_data_pd['brand'].str.lower().unique())
+
+            brand_input = input("Enter the brand (or 'all' for all brands): ").strip().lower()
+            valid_brand_options = loaded_data_pd['brand'].str.lower().unique()
+
+            while brand_input not in valid_brand_options:
+                print(f"Invalid input. Please choose from the following options: {', '.join(valid_brand_options)}")
+                brand_input = input("Enter the brand (or 'all' for all brands): ").strip().lower()
 
             # Get user input for the currency
             currency = ", ".join(loaded_data_pd['price_currency'].unique())
             print(f"These are the currencies you can choose from: \n {currency}")
-            currency_input = get_valid_input("Enter the currency (or 'all' for all currencies): ", loaded_data_pd['price_currency'].str.lower().unique())
+
+            currency_input = input("Enter the currency (or 'all' for all currencies): ").strip().lower()
+            valid_currency_options = loaded_data_pd['price_currency'].str.lower().unique()
+
+            while currency_input not in valid_currency_options:
+                print(f"Invalid input. Please choose from the following options: {', '.join(valid_currency_options)}")
+                currency_input = input("Enter the currency (or 'all' for all currencies): ").strip().lower()
 
             # Filter the data based on user input
             filtered_data = loaded_data_pd.copy()  # Create a copy of the original data to avoid modifying it
@@ -83,7 +92,7 @@ def calculate_average_price_for_brand(loaded_data_pd):
                         print(brand_avg_prices.iloc[start_pos:end_pos])
 
                         if end_pos >= len(brand_avg_prices):
-                            print("No more rows available.")
+                            print("\033[1mNo more rows available.\033[0m")
                             break
 
                         user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ").strip().lower()
@@ -93,13 +102,25 @@ def calculate_average_price_for_brand(loaded_data_pd):
                         elif user_input == 'quit':
                             break
 
-            retry = get_valid_input("Would you like to calculate for another brand/currency (yes/no)? ", ['yes', 'no'])
-            if retry != 'yes':
-                break
+                    retry = input("Would you like to calculate for another brand/currency (yes/no)? ").strip().lower()
+                    if retry != 'yes':
+                        break
+                else:
+                    print("\nNo data available for average price by brand and currency.")
+
         except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print(f"\033[31mAn error occurred: {e}. Please try again.\033[0m")
+            return None
 
 
+# B3
+
+def get_user_input(prompt, valid_options):
+    while True:
+        user_input = input(prompt).strip().lower()
+        if user_input in valid_options:
+            return user_input
+        print(f"Invalid input. Please choose from the following options: {', '.join(valid_options)}")
 
 def average_mass_brand(loaded_data_pd):
     try:
@@ -112,41 +133,50 @@ def average_mass_brand(loaded_data_pd):
             end_pos = min(start_pos + num_rows, len(manufact_avg_mass))
 
             while True:
-                # Display the current set of rows
+                # Display the current set of rows without external modules
                 print("\033[1mAverage Mass by Brand\033[0m")
-                print(manufact_avg_mass.iloc[start_pos:end_pos])
+                print(f"\033[4m\033[1m{'Manufacturer':<30}{'Average Weight (grams)':<20}\033[0m")
+
+                for _, row in manufact_avg_mass.iloc[start_pos:end_pos].iterrows():
+                    print(f"{row['manufacturer']:<40}{row['weight_gram']:<25}")
 
                 if end_pos >= len(manufact_avg_mass):
-                    print("\nNo more rows available.")
+                    print("\033[1mNo more rows available.\033[0m")
                     break
 
-                user_input = input("\nEnter 'next' to view the next 20 rows or 'quit' to exit: ").strip().lower()
+                user_input = get_user_input("\nEnter 'next' to view the next 20 rows or 'quit' to exit: ", ['next', 'quit'])
+
                 if user_input == 'next':
                     start_pos += num_rows
                     end_pos = min(start_pos + num_rows, len(manufact_avg_mass))
                 elif user_input == 'quit':
                     break
-                else:
-                    print("\nInvalid input. Please enter 'next' or 'quit'.")
         else:
             print("\nNo data available for average mass by brand.")
+    
     except Exception as e:
-        print(f"\nAn error occurred: {e}. Please try again.")
+        print(f"\n\033[31mAn error occurred: {e}. Please try again.\033[0m")
+        # Return None in case of an error
+        return None
 
+#B4
 
+"""  Display the top 5 cheapest prices for a specified brand and calculate the price-performance ratio for a selected device.
 
+    Parameters:
+    - loaded_data_pd (pd.DataFrame): The loaded dataset in a Pandas DataFrame.
 
+    """
 def get_cheapest_prices_and_calculate_ratio(loaded_data_pd):
     while True:
         try:
             brand_names = ", ".join(loaded_data_pd['brand'].unique())
-            print()
             print(f"Available device brand names in this dataset:\n{brand_names}")
 
             user_brand = input("Enter the brand to find the top 5 cheapest prices (or 'quit' to exit): ").strip().lower()
 
             if user_brand == 'quit':
-                break  # Exit the loop if the user wants to quit
+                return  # Exit the function if the user wants to quit
 
             filtered_data = loaded_data_pd[loaded_data_pd['brand'].str.lower() == user_brand]
 
@@ -159,13 +189,28 @@ def get_cheapest_prices_and_calculate_ratio(loaded_data_pd):
                 user_id_input = input("Enter the OEM ID of the device to calculate the price-performance ratio (or 'quit' to return to brand selection): ").strip()
 
                 if user_id_input == 'quit':
-                    continue  # Continue to brand selection
+                    return  # Return to brand selection
 
-                calculate_price_performance_ratio(loaded_data_pd, user_id_input)
+                # Validate the entered OEM ID
+                if user_id_input not in loaded_data_pd['oem_id'].values:
+                    print(f"Invalid OEM ID: {user_id_input}. Please enter a valid OEM ID.")
+                else:
+                    calculate_price_performance_ratio(loaded_data_pd, user_id_input)
+                    break  # Exit the loop after a successful calculation
             else:
                 print(f"No data available for brand: {user_brand}")
         except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print(f"\033[31mAn error occurred: {e}. Please try again.\033[0m")
+
+        
+        
+"""
+    Calculate and display the price-performance ratio for a selected device.
+
+    Parameters:
+    - loaded_data_pd (pd.DataFrame): The loaded dataset in a Pandas DataFrame.
+    - user_id_input (str): The user-entered OEM ID of the device.
+    """
 
 def calculate_price_performance_ratio(loaded_data_pd, user_id_input):
     df = loaded_data_pd
@@ -214,8 +259,6 @@ def calculate_price_performance_ratio(loaded_data_pd, user_id_input):
             print("This is a good buy! It offers great performance for its price.")
         else:
             print("Based on the price performance ratio. \nPlease consider other options. It may not provide the best value for your money.")
+            print()
     else:
         print(f"No device with OEM ID {user_id_input} found in the dataset.")
-
-
-

@@ -1,6 +1,13 @@
-
 def run_phoneDB_program():
-    print("Welcome to PhoneDB Website")
+    print("\033[1m\033[34mWelcome to PhoneDB!\033[0m")
+    print("\033[1m\033[4mBrief Background\033[0m")
+    print("\033[32mPhoneDB website is your go-to information hub for smartphones, tablets, PDAs, and mobile devices.\033[0m")
+    print("\033[32mOur platform offers a comprehensive collection of data and various services to help you find the most suitable mobile device.\033[0m")
+    print()
+    print("\033[1m\033[31mThank you for choosing PhoneDB! Let's explore the world of mobile devices together.\033[0m")
+
+   
+
     username = input("What is your name? ")
     username = username.upper()
     print(f"\nYes, {username}, let's get to work.")
@@ -38,7 +45,6 @@ def run_phoneDB_program():
                     if choice_A == 1:
                         # Perform option 1
                         print("Option 1 selected.")
-                        from Loading_dataset import load_csv_file
                         loaded_data = Loading_dataset.load_csv_file()
 
                     elif choice_A == 2:
@@ -46,36 +52,39 @@ def run_phoneDB_program():
                         print("Option 2 selected.")
                         from Data_retriever import get_oem_id_details
                         device_details = Data_retriever.get_oem_id_details(loaded_data)
-                        print(device_details)
 
                     elif choice_A == 3:
                         # Perform option 3
                         print("Option 3 selected.")
                         from Data_retriever import get_code_name_details
                         code_name = Data_retriever.get_code_name_details(loaded_data)
-                        print(code_name)
 
                     elif choice_A == 4:
                         # Perform option 4
                         print("Option 4 selected.")
                         from Data_retriever import get_ram_capacity_details
                         ram = Data_retriever.get_ram_capacity_details(loaded_data)
-                        print(ram)
+                        
                     elif choice_A == 5:
                         # Perform option 5
                         print("Option 5 selected.")
                         from Data_retriever import return_ordered_device_details
                         ordered_details = Data_retriever.return_ordered_device_details(loaded_data)
-                        print(ordered_details)
+                        
 
                     else:
                         print("Invalid choice. Please enter a valid option.")
 
                     # Ask the user if they want to continue in section A
-                    continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ")
-                    if continue_choice_A.lower() != 'yes':
+                    continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
+                    while continue_choice_A not in ['yes', 'no']:
+                        print("Invalid choice. Please enter 'yes' or 'no'.")
+                        continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
+
+                    if continue_choice_A == 'no':
                         print("Returning to the main menu...")
                         break
+
 
             elif choice1 == "B":
                 if loaded_data is None:
@@ -93,7 +102,7 @@ def run_phoneDB_program():
                         if choice_B == 5:
                             # Perform option 5
                             print("Option 5 selected.")
-                            from Loading_dataset import load_pd_file
+                            # file_location = input("Enter the file location: ")
                             loaded_data_pd = Loading_dataset.load_pd_file()
 
                         elif choice_B == 6:
@@ -101,35 +110,39 @@ def run_phoneDB_program():
                             print("Option 6 selected.")
                             from Data_analysis import get_brand_regions
                             brand_region = Data_analysis.get_brand_regions(loaded_data_pd)
-                            print(brand_region)
+                            
 
                         elif choice_B == 7:
                             # Perform option 7
                             print("Option 7 selected.")
                             from Data_analysis import calculate_average_price_for_brand
                             average_price = Data_analysis.calculate_average_price_for_brand(loaded_data_pd)
-                            print(average_price)
+                            
 
                         elif choice_B == 8:
                             # Perform option 8
                             print("Option 8 selected.")
                             from Data_analysis import average_mass_brand
                             average_mass = Data_analysis.average_mass_brand(loaded_data_pd)
-                            print(average_mass)
+                            
 
                         elif choice_B == 9:
                             # Perform option 9
                             print("Option 9 selected.")
                             from Data_analysis import get_cheapest_prices_and_calculate_ratio
                             ratio = Data_analysis.get_cheapest_prices_and_calculate_ratio(loaded_data_pd)
-                            print(ratio)
+                            
 
                         else:
                             print("Invalid choice. Please enter a valid option.")
 
                         # Ask the user if they want to continue in section B
-                        continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ")
-                        if continue_choice_B.lower() != 'yes':
+                        continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
+                        while continue_choice_B not in ['yes', 'no']:
+                            print("Invalid choice. Please enter 'yes' or 'no'.")
+                            continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
+
+                        if continue_choice_B == 'no':
                             print("Returning to the main menu...")
                             break
 
@@ -180,8 +193,12 @@ def run_phoneDB_program():
                             print("Invalid choice. Please enter a valid option.")
 
                         # Ask the user if they want to continue in section C
-                        continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ")
-                        if continue_choice_C.lower() != 'yes':
+                        continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
+                        while continue_choice_C not in ['yes', 'no']:
+                            print("Invalid choice. Please enter 'yes' or 'no'.")
+                            continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
+
+                        if continue_choice_C == 'no':
                             print("Returning to the main menu...")
                             break
 
@@ -197,61 +214,3 @@ def run_phoneDB_program():
             break
         elif return_choice.lower() != 'menu':
             print("Invalid choice. Returning to the main menu...")
-
-
-
-
-# reading in the csv data from csv file using csv  
-
-
-# import csv
-
-# file_location = None  # Initialize the variable
-
-# def load_csv_file():
-#     global file_location  # Use the global variable
-#     while True:
-#         file_location = input("Enter the file location: ")
-
-#         try:
-#             phone_data = []
-#             with open(file_location, 'r', encoding='utf-8') as file:
-#                 reader = csv.reader(file)
-#                 next(reader)
-#                 for line in reader:
-#                     phone_data.append(line)
-#             print(f"\nFetching data...\nSuccessfully loaded the {file_location} dataset.")
-#             return phone_data
-
-#         except csv.Error:
-#             print(f"Invalid CSV file: {file_location}")
-#         except FileNotFoundError:
-#             print(f"File not found: {file_location}")
-#         except IOError:
-#             print(f"Couldn't read {file_location}.")
-
-#         retry = input("Do you want to enter a new file location? (yes/no): ")
-#         if retry.lower() != 'yes':
-#             print("Exiting file loading...\n")
-#             return None  
-
-# # reading in the csv data as a pandas file using pandas        
-        
-# import pandas as pd
-
-# def load_pd_file():
-#     global file_location  # Use the global variable
-#     if file_location is not None:
-#         try:
-#             phone_data = pd.read_csv(file_location, encoding='utf-8')
-#             print(f"\nFetching data...\nSuccessfully loaded the {file_location} pandas dataset.")
-#             return phone_data
-#         except pd.errors.EmptyDataError:
-#             print(f"Empty CSV file: {file_location}")
-#         except FileNotFoundError:
-#             print(f"File not found: {file_location}")
-#         except pd.errors.ParserError:
-#             print(f"Couldn't read {file_location}. It may not be a valid CSV file.")
-#         except Exception as e:
-#             print(f"An error occurred while loading the file: {str(e)}")
-

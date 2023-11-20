@@ -1,4 +1,4 @@
-def run_phoneDB_program():
+def main_menu():
     print("\033[1m\033[34mWelcome to PhoneDB!\033[0m")
     print("\033[1m\033[4mBrief Background\033[0m")
     print("\033[32mPhoneDB website is your go-to information hub for smartphones, tablets, PDAs, and mobile devices.\033[0m")

@@ -5,7 +5,7 @@ import pandas as pd
 from Loading_dataset import load_pd_file
 
 
-
+# C1
 # Create a chart to visually represent the proportion of RAM types for devices in the current market
 def ram_type_proportion(loaded_data_pd):
     
@@ -23,7 +23,7 @@ def ram_type_proportion(loaded_data_pd):
 
     plt.show()
 
-
+# C2
 
 # Create a chart to visually compare the number of devices for each USB connector type
 def usb_connector_comparison(loaded_data_pd):
@@ -44,7 +44,7 @@ def usb_connector_comparison(loaded_data_pd):
 
     plt.show()
     
-
+# C3
 
 def subplot_GBP(loaded_data_pd):
     # Assuming 'released_date' is in the format 'dd-mm-yyyy'
@@ -104,7 +104,7 @@ def subplot_GBP(loaded_data_pd):
     # Show the plot
     plt.show()
     
-
+# C4
 
 def vis_brand(loaded_data_pd):
     # Extract the numeric battery capacities from the format "5000 mAh battery"
@@ -150,13 +150,27 @@ def vis_brand(loaded_data_pd):
     # Show the scatter plot
     plt.show()
 
-
-
+# C5
 
 def average_ppr(loaded_data_pd):
     # Create a bar chart to visualize the average Price-Performance Ratio for all devices
+    df = loaded_data_pd
+
+    # Define weightage factors
+    weight_cpu = 0.4
+    weight_ram = 0.3
+    weight_storage = 0.2
+    weight_price = 0.1
+
+    # Calculate a performance score based on specifications
+    df['Performance_Score'] = (weight_cpu * df['cpu_clock']) + \
+                               (weight_ram * df['ram_capacity']) + \
+                               (weight_storage * df['non_volatile_memory_capacity'])
+
+    # Calculate price-performance ratio
+    df['Price_Performance_Ratio'] = df['Performance_Score'] / df['price']
     # Group by brand and calculate the average Price-Performance Ratio
-    average_ppr_by_brand = loaded_data_pd.groupby('brand')['Price_Performance_Ratio'].mean().reset_index()
+    average_ppr_by_brand = df.groupby('brand')['Price_Performance_Ratio'].mean().reset_index()
     # Create a bar chart to visualize the average Price-Performance Ratio for different brands
     plt.figure(figsize=(10, 6))
     plt.bar(average_ppr_by_brand['brand'], average_ppr_by_brand['Price_Performance_Ratio'])
@@ -176,5 +190,3 @@ def average_ppr(loaded_data_pd):
 
     # Show the chart
     plt.show()
-
-

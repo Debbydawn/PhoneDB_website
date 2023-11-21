@@ -158,12 +158,13 @@ def main_menu():
                         print("10. Get the number of devices for each USB connector type using a bar chart")
                         print("11. Get the monthly average price trends (in GBP) for devices released in each year from 2020 to 2023.")
                         print("12. Get a bar chart for the average battery capacity and the relationship between display size and battery capacity with a scatter plot")
+                        print("13. Get the average price performance ratio bar chart")
 
-                        choice_C = int(input("Enter your choice (9-12): "))
+                        choice_C = int(input("Enter your choice (9-13): "))
 
-                        while choice_C not in [9, 10, 11, 12]:
-                            print("Invalid choice. Please enter a valid option (9-12).")
-                            choice_C = int(input("Enter your choice (9-12): "))
+                        while choice_C not in [9, 10, 11, 12,13]:
+                            print("Invalid choice. Please enter a valid option (9-13).")
+                            choice_C = int(input("Enter your choice (9-13): "))
 
                         if choice_C == 9:
                             # Perform option 9
@@ -188,6 +189,12 @@ def main_menu():
                             print("Option 12 selected.")
                             from Data_visualization import vis_brand
                             plot_vis = Data_visualization.vis_brand(loaded_data_pd)
+                            
+                        elif choice_C == 13:
+                            # Perform option 13
+                            print("Option 13 selected.")
+                            from Data_visualization import average_ppr
+                            plot_vizef = Data_visualization.average_ppr(loaded_data_pd)
 
                         else:
                             print("Invalid choice. Please enter a valid option.")

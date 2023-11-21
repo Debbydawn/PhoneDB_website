@@ -262,3 +262,4 @@ def calculate_price_performance_ratio(loaded_data_pd, user_id_input):
             print()
     else:
         print(f"No device with OEM ID {user_id_input} found in the dataset.")
+   

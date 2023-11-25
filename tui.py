@@ -1,4 +1,6 @@
+# the tui for the program interacting with the modules 
 def main_menu():
+    # user text displays
     print("\033[1m\033[34mWelcome to PhoneDB!\033[0m")
     print("\033[1m\033[4mBrief Background\033[0m")
     print("\033[32mPhoneDB website is your go-to information hub for smartphones, tablets, PDAs, and mobile devices.\033[0m")
@@ -6,18 +8,18 @@ def main_menu():
     print()
     print("\033[1m\033[31mThank you for choosing PhoneDB! Let's explore the world of mobile devices together.\033[0m")
 
-   
-
     username = input("What is your name? ")
     username = username.upper()
     print(f"\nYes, {username}, let's get to work.")
-    import Loading_dataset  # Assuming the Loading_dataset module contains the load_csv_file and load_pd_file functions
+    # loading the neccessary modules 
+    import Loading_dataset  
     import Data_retriever
     import Data_analysis
     import Data_visualization
 
     loaded_data = None
     loaded_data_pd = None
+    # while loop for the main menu and also include individual sub-menus
 
     while True:
         try:
@@ -77,10 +79,12 @@ def main_menu():
 
                     # Ask the user if they want to continue in section A
                     continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
+                     # loop to keep asking till a valid entry is entered 
                     while continue_choice_A not in ['yes', 'no']:
                         print("Invalid choice. Please enter 'yes' or 'no'.")
                         continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
-
+                    
+                    # option to return to main menu
                     if continue_choice_A == 'no':
                         print("Returning to the main menu...")
                         break
@@ -138,10 +142,12 @@ def main_menu():
 
                         # Ask the user if they want to continue in section B
                         continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
+                        # loop to keep asking till a valid entry is entered 
                         while continue_choice_B not in ['yes', 'no']:
                             print("Invalid choice. Please enter 'yes' or 'no'.")
                             continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
-
+                            
+                        # option to return to main menu
                         if continue_choice_B == 'no':
                             print("Returning to the main menu...")
                             break
@@ -201,10 +207,12 @@ def main_menu():
 
                         # Ask the user if they want to continue in section C
                         continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
+                        # loop to keep asking till a valid entry is entered 
                         while continue_choice_C not in ['yes', 'no']:
                             print("Invalid choice. Please enter 'yes' or 'no'.")
                             continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
-
+                        
+                        # option to return to main menu
                         if continue_choice_C == 'no':
                             print("Returning to the main menu...")
                             break

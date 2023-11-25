@@ -2,13 +2,13 @@
 from Loading_dataset import load_csv_file
 
 # A1
-
+# function to return the specific details based on OEM_id of a device
 def get_oem_id_details(loaded_data):
     while True:
         try:
             oem_id = input("Enter the OEM ID: ").lower()  # Convert input to lowercase
 
-            # Initialize a dictionary to store the details
+            # creating a dictionary to store the details
             oem_details = {}
 
             # Loop through each row in the CSV file
@@ -52,7 +52,7 @@ def get_oem_id_details(loaded_data):
 
 
 # A2     
-
+# function to get code_name from user and return specific details about the code names 
 def get_code_name_details(loaded_data):
     while True:
         try:
@@ -159,6 +159,7 @@ def get_ram_capacity_details(loaded_data):
             if not ram_size_found:
                 print("\033[1mNo match for the RAM size details found.\033[0m")
             else:
+                # displaying 20 rows at time if available 
                 num_rows = 20
                 start_pos = 0
                 end_pos = min(start_pos + num_rows, len(result_rows))
@@ -202,7 +203,7 @@ def get_ram_capacity_details(loaded_data):
 
 
 # A4
-
+# extracts specific device details, and sorts the results by release date
 def return_ordered_device_details(loaded_data):
     try:
         result_rows = []

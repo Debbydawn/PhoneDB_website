@@ -1,15 +1,11 @@
-# reading in the csv data from csv file using csv  
-
+# reading in the csv data from csv file using csv module
 import csv
-
-
-file_location = None  # Initialize the variable
+file_location = None  # Initialize the location variable
 
 def load_csv_file():
     global file_location  # Use the global variable
     while True:
         file_location = input("Enter the file location: ")
-
         try:
             phone_data = []
             with open(file_location, 'r', encoding='utf-8') as file:

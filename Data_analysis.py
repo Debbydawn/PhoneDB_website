@@ -52,7 +52,7 @@ def calculate_average_price_for_brand(loaded_data_pd):
             brand_input = input("Enter the brand (or 'all' for all brands): ").strip().lower()
             valid_brand_options = loaded_data_pd['brand'].str.lower().unique()
 
-            while brand_input not in valid_brand_options:
+            while brand_input != 'all' and brand_input not in valid_brand_options:
                 print(f"Invalid input. Please choose from the following options: {', '.join(valid_brand_options)}")
                 brand_input = input("Enter the brand (or 'all' for all brands): ").strip().lower()
 
@@ -63,7 +63,7 @@ def calculate_average_price_for_brand(loaded_data_pd):
             currency_input = input("Enter the currency (or 'all' for all currencies): ").strip().lower()
             valid_currency_options = loaded_data_pd['price_currency'].str.lower().unique()
 
-            while currency_input not in valid_currency_options:
+            while currency_input != 'all' and currency_input not in valid_currency_options:
                 print(f"Invalid input. Please choose from the following options: {', '.join(valid_currency_options)}")
                 currency_input = input("Enter the currency (or 'all' for all currencies): ").strip().lower()
 
@@ -161,12 +161,8 @@ def average_mass_brand(loaded_data_pd):
 
 #B4
 
-"""  Display the top 5 cheapest prices for a specified brand and calculate the price-performance ratio for a selected device.
+#  Display the top 5 cheapest prices for a specified brand and calculate the price-performance ratio for a selected device.
 
-    Parameters:
-    - loaded_data_pd (pd.DataFrame): The loaded dataset in a Pandas DataFrame.
-
-    """
 def get_cheapest_prices_and_calculate_ratio(loaded_data_pd):
     while True:
         try:
@@ -204,13 +200,8 @@ def get_cheapest_prices_and_calculate_ratio(loaded_data_pd):
 
         
         
-"""
-    Calculate and display the price-performance ratio for a selected device.
 
-    Parameters:
-    - loaded_data_pd (pd.DataFrame): The loaded dataset in a Pandas DataFrame.
-    - user_id_input (str): The user-entered OEM ID of the device.
-    """
+# Calculate and display the price-performance ratio for a selected device.
 
 def calculate_price_performance_ratio(loaded_data_pd, user_id_input):
     df = loaded_data_pd

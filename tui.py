@@ -240,7 +240,7 @@ def main_menu():
             print("Invalid input. Please enter a valid integer.")
 
         # Ask the user if they want to return to the main menu or exit
-        return_choice = input("Do you want to return to the main menu or exit the program? (menu/exit): ")
+        return_choice = input("Do you want to return to the main menu or exit the program? (menu/exit): ").lower()
         # loop to keep asking till a valid entry is entered 
         while return_choice not in ['menu', 'exit']:
             print("Invalid choice. Please enter 'menu' or 'exit'.")

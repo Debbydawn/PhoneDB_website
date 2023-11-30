@@ -8,9 +8,29 @@ def main_menu():
     print()
     print("\033[1m\033[31mThank you for choosing PhoneDB! Let's explore the world of mobile devices together.\033[0m")
 
+    
+    # import random module for user greeting message
+    import random
+
+    # List of greetings
+    greetings = [
+        "Hello",
+        "Hi",
+        "Greetings",
+        "Hey",
+        "Welcome",
+    ]
+
+    # Get user input
     username = input("What is your name? ")
     username = username.upper()
-    print(f"\nYes, {username}, let's get to work.")
+
+    # Randomly select a greeting
+    selected_greeting = random.choice(greetings)
+
+    # Print the personalized greeting
+    print(f"\n{selected_greeting}, {username}, let's get to work.")
+    
     # loading the neccessary modules 
     import Loading_dataset  
     import Data_retriever
@@ -79,12 +99,11 @@ def main_menu():
 
                     # Ask the user if they want to continue in section A
                     continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
-                     # loop to keep asking till a valid entry is entered 
+                    # loop to keep asking till a valid entry is entered
                     while continue_choice_A not in ['yes', 'no']:
                         print("Invalid choice. Please enter 'yes' or 'no'.")
                         continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
-                    
-                    # option to return to main menu
+
                     if continue_choice_A == 'no':
                         print("Returning to the main menu...")
                         break
@@ -142,12 +161,11 @@ def main_menu():
 
                         # Ask the user if they want to continue in section B
                         continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
-                        # loop to keep asking till a valid entry is entered 
+                        # loop to keep asking till a valid entry is entered
                         while continue_choice_B not in ['yes', 'no']:
                             print("Invalid choice. Please enter 'yes' or 'no'.")
                             continue_choice_B = input("Do you want to perform another operation in section B? (yes/no): ").lower()
-                            
-                        # option to return to main menu
+
                         if continue_choice_B == 'no':
                             print("Returning to the main menu...")
                             break
@@ -164,7 +182,7 @@ def main_menu():
                         print("10. Get the number of devices for each USB connector type using a bar chart")
                         print("11. Get the monthly average price trends (in GBP) for devices released in each year from 2020 to 2023.")
                         print("12. Get a bar chart for the average battery capacity and the relationship between display size and battery capacity with a scatter plot")
-                        print("13. Get the average price performance ratio bar chart")
+                        print("13. Get the price performance ratio chart")
 
                         choice_C = int(input("Enter your choice (9-13): "))
 
@@ -207,12 +225,11 @@ def main_menu():
 
                         # Ask the user if they want to continue in section C
                         continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
-                        # loop to keep asking till a valid entry is entered 
+                        # loop to keep asking till a valid entry is entered
                         while continue_choice_C not in ['yes', 'no']:
                             print("Invalid choice. Please enter 'yes' or 'no'.")
                             continue_choice_C = input("Do you want to perform another operation in section C? (yes/no): ").lower()
-                        
-                        # option to return to main menu
+
                         if continue_choice_C == 'no':
                             print("Returning to the main menu...")
                             break
@@ -224,6 +241,10 @@ def main_menu():
 
         # Ask the user if they want to return to the main menu or exit
         return_choice = input("Do you want to return to the main menu or exit the program? (menu/exit): ")
+        # loop to keep asking till a valid entry is entered 
+        while return_choice not in ['menu', 'exit']:
+            print("Invalid choice. Please enter 'menu' or 'exit'.")
+            return_choice = input("Do you want to return to the main menu or exit the program? (menu/exit): ").lower()
         if return_choice.lower() == 'exit':
             print("Exiting...\nExited")
             break

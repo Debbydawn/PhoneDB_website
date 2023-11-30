@@ -46,6 +46,7 @@ def usb_connector_comparison(loaded_data_pd):
     
 # C3
 
+# create a subplot to visualize the line graphs for the price for year 2020 to 2023
 def subplot_GBP(loaded_data_pd):
     # Assuming 'released_date' is in the format 'dd-mm-yyyy'
     loaded_data_pd['released_date'] = pd.to_datetime(loaded_data_pd['released_date'], format='%d-%m-%y')
@@ -53,9 +54,6 @@ def subplot_GBP(loaded_data_pd):
     # Extract the years and create a new column
     loaded_data_pd['released_year'] = loaded_data_pd['released_date'].dt.year
     loaded_data_pd['released_month'] = loaded_data_pd['released_date'].dt.month
-
-    # Display the DataFrame with the brand and released year
-    # print(loaded_data_pd['released_year'])
 
     # Split the data by year into separate DataFrames
     yearly_data = {}

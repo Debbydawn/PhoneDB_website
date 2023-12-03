@@ -103,7 +103,6 @@ def main_menu():
                     while continue_choice_A not in ['yes', 'no']:
                         print("Invalid choice. Please enter 'yes' or 'no'.")
                         continue_choice_A = input("Do you want to perform another operation in section A? (yes/no): ").lower()
-
                     if continue_choice_A == 'no':
                         print("Returning to the main menu...")
                         break

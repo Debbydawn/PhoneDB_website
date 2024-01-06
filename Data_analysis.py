@@ -2,6 +2,7 @@
 from Loading_dataset import load_pd_file
 
 #B1
+# function to get top regions for a particular brand 
 
 def get_brand_regions(loaded_data_pd):
     while True:
@@ -41,6 +42,7 @@ def get_brand_regions(loaded_data_pd):
 
 
 # B2
+# function calculates the average price for a brand in which ever currency the user want
 
 def calculate_average_price_for_brand(loaded_data_pd):
     while True:
@@ -114,6 +116,7 @@ def calculate_average_price_for_brand(loaded_data_pd):
 
 
 # B3
+# this function calculates the average mass of devices produced by each brand
 
 def get_user_input(prompt, valid_options):
     while True:

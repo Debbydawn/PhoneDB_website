@@ -2,7 +2,7 @@
 from Loading_dataset import load_csv_file
 
 # A1
-# function to return the specific details based on OEM_id of a device
+# function to return the Model,Manufacturer,Weight,Price, and Price Unit based on OEM_id of a device
 def get_oem_id_details(loaded_data):
     while True:
         try:
@@ -52,7 +52,7 @@ def get_oem_id_details(loaded_data):
 
 
 # A2     
-# function to get code_name from user and return specific details about the code names 
+# function to get code_name from user and return Band,Model name,RAM,Market regions,and Date of addition about the a code names 
 def get_code_name_details(loaded_data):
     while True:
         try:
@@ -126,6 +126,8 @@ def get_code_name_details(loaded_data):
 
 
 # A3
+# function the using the ram capacity of the devices to return OEM Id,Release date,Announcement date,Dimensions,Device category
+                       
 
 def get_ram_capacity_details(loaded_data):
     while True:
@@ -203,7 +205,8 @@ def get_ram_capacity_details(loaded_data):
 
 
 # A4
-# extracts specific device details, and sorts the results by release date
+# extracts Battery Capacity,Storage Space,Additional Software Details,Pixel Density,Sim-Card-Type,Released Date,Price and sorts the results by release date using some selection from the user
+
 def return_ordered_device_details(loaded_data):
     try:
         result_rows = []
